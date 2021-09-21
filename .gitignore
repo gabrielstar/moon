@@ -1,0 +1,3 @@
+.chromedriver
+playwright/node_modules
+.venv
