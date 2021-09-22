@@ -1,6 +1,6 @@
 #fixed iterations
 $tool = 'cypress'
-$threads = 5;
+$threads = 10;
 $iterations = 6;
 $rampUp = 20;
 $sleep = $rampUp / $threads;
