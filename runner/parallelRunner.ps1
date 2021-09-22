@@ -20,7 +20,7 @@ $job = 1..$iterations | ForEach-Object -ThrottleLimit $maxThreads -Parallel {
   if($tool -ne 'all'){ #specific tool
     $cmd = $commands[$tool]
   } else{ #round robin
-    switch ($_ % 3) {
+    switch ($_ % $commands.count) {
       0 { $cmd = $commands.cypress }
       1 { $cmd = $commands.playwright }
       2 { $cmd = $commands.selenium }
