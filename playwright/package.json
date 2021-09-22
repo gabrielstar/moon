@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node tests/example.spec.js"
+    "moon:firefox": "node tests/example.spec.js"
   },
   "keywords": [],
   "author": "",

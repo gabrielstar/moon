@@ -1,21 +1,32 @@
 #fixed iterations
-$tool = 'cypress'
-$threads = 10;
-$iterations = 6;
-$rampUp = 20;
-$sleep = $rampUp / $threads;
+$tool = 'all' # selenium|playwright|cypress
+$maxThreads = 4
+$iterations = 4
+$rampUp = 8
+$sleep = $rampUp / $maxThreads
 
 
-$job = 1..$iterations | ForEach-Object -ThrottleLimit $threads -Parallel {  
+$job = 1..$iterations | ForEach-Object -ThrottleLimit $maxThreads -Parallel {  
   $startAt = ($_ - 1) * $using:sleep;
-  Start-Sleep $startAt;
+  $tool = $using:tool;
   $cmd = ''
-  switch ($using:tool) {
-    'cypress' { $cmd = "npm run cy:moon --prefix=../cypress/" }
-    'playwright' { $cmd = "playwright" }
-    'selenium' { $cmd = "selenium" }
+  $commands = @{
+    cypress = "npm run cy:moon:edge --prefix=../cypress/" ;
+    playwright = "npm run moon:firefox --prefix=../playwright/";
+    selenium = "python ../selenium/test.py";
   }
-  "Iteration $_ running $cmd after $startAt"; 
+ 
+  Start-Sleep $startAt; #delay iteration
+  if($tool -ne 'all'){ #specific tool
+    $cmd = $commands[$tool]
+  } else{ #round robin
+    switch ($_ % 3) {
+      0 { $cmd = $commands.cypress }
+      1 { $cmd = $commands.playwright }
+      2 { $cmd = $commands.selenium }
+    }
+  }
+  "Iteration $_ running $cmd after $startAt, at CPU % ",(Get-Counter '\Processor(_Total)\% Processor Time').CounterSamples.CookedValue; 
   Invoke-Expression "$cmd"
 } -AsJob
 
