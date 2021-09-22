@@ -16,5 +16,8 @@ helm upgrade --install -n moon moon aerokube/moon --version="1.1.12"
 kubectl get all -nmoon
 helm show values aerokube/moon
 
+#change resource limits for autoscaling
+helm upgrade --install -n moon moon aerokube/moon --version="1.1.12" --set moon.browser.resources.cpu.requests=0.8 --set moon.browser.resources.cpu.limits=2
+
 #UI is at http://20.101.234.149:8080/#/
 #server is at http://20.101.234.149:4444/wd/hub
