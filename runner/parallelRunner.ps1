@@ -29,6 +29,7 @@ $parallelTestJob = 1..$iterations | ForEach-Object -ThrottleLimit $maxThreads -P
     }
   }
   "Iteration $_ running $cmd after $startAt"
+  Invoke-Expression "$cmd"
 } -AsJob
 
 $parallelTestJob | Receive-Job -Wait
