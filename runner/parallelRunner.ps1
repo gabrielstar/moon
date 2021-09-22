@@ -1,12 +1,12 @@
 #fixed iterations
 $tool = 'all' # selenium|playwright|cypress
-$maxThreads = 4
-$iterations = 4
+$maxThreads = 10
+$iterations = 10
 $rampUp = 8
 $sleep = $rampUp / $maxThreads
 
 
-$job = 1..$iterations | ForEach-Object -ThrottleLimit $maxThreads -Parallel {  
+$parallelTestJob = 1..$iterations | ForEach-Object -ThrottleLimit $maxThreads -Parallel {  
   $startAt = ($_ - 1) * $using:sleep;
   $tool = $using:tool;
   $cmd = ''
@@ -30,4 +30,4 @@ $job = 1..$iterations | ForEach-Object -ThrottleLimit $maxThreads -Parallel {
   Invoke-Expression "$cmd"
 } -AsJob
 
-$job | Receive-Job -Wait
+$parallelTestJob | Receive-Job -Wait
