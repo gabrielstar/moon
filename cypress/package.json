@@ -1,0 +1,21 @@
+{
+  "name": "cypress-moon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cy:test": "cypress run --browser chrome --spec .\\cypress\\integration\\1-getting-started\\*",
+    "cy:moon:all" : ".\\node_modules\\.bin\\cypress-moon http://20.101.234.149:4444/cypress/chromium?spec=cypress/integration/1-getting-started/*",
+    "cy:moon" : ".\\node_modules\\.bin\\cypress-moon http://20.101.234.149:4444/cypress/chromium?spec=cypress/integration/1-getting-started/todo.spec.1.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^8.4.1"
+  },
+  "dependencies": {
+    "@aerokube/cypress-moon": "^1.0.2"
+  }
+}

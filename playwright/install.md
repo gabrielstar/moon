@@ -6,3 +6,4 @@ npm i -D @playwright/test
 npx playwright install
 #run tests
 npx playwright test --browser=chromium --headed
+npm test
