@@ -28,8 +28,7 @@ $parallelTestJob = 1..$iterations | ForEach-Object -ThrottleLimit $maxThreads -P
       2 { $cmd = $commands.selenium }
     }
   }
-  "Iteration $_ running $cmd after $startAt, at CPU % ",(Get-Counter '\Processor(_Total)\% Processor Time').CounterSamples.CookedValue; 
-  Invoke-Expression "$cmd"
+  "Iteration $_ running $cmd after $startAt"
 } -AsJob
 
 $parallelTestJob | Receive-Job -Wait
