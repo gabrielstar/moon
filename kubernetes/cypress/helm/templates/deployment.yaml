@@ -1,0 +1,53 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: cypress-load
+  labels:
+    app: cypress-load
+spec:
+  strategy:
+    type: Recreate
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: cypress-load
+  template:
+    metadata:
+      labels:
+        app: cypress-load
+    spec:
+      containers:
+      - name: cypress
+        resources:
+          requests:
+            cpu: {{ .Values.requests.cpu }}
+          limits:
+            cpu: {{ .Values.limits.cpu }}
+        command:
+          - /bin/bash
+          - -c
+          - |
+            while true; do cypress run; done;
+        image: cypress/included:3.2.0
+        imagePullPolicy: IfNotPresent
+        workingDir: /tests
+        env:
+          - name: author
+            value: gabriel
+        volumeMounts:
+          - name: test
+            mountPath: /tests/cypress/integration/test.js
+            subPath: test.js
+          - name: cypress
+            mountPath: /tests/cypress.json
+            subPath: cypress.json
+
+      volumes:
+      - name: test 
+        configMap:
+         name: test-volume
+         defaultMode: 0444
+      - name: cypress 
+        configMap:
+         name: cypress-volume
+         defaultMode: 0444

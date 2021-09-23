@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cy:test": "cypress run --browser chrome --spec .\\cypress\\integration\\1-getting-started\\*",
-    "cy:moon:all" : ".\\node_modules\\.bin\\cypress-moon http://20.101.234.149:4444/cypress/edge?spec=cypress/integration/1-getting-started/*",
-    "cy:moon:edge" : ".\\node_modules\\.bin\\cypress-moon http://20.101.234.149:4444/cypress/edge?spec=cypress/integration/1-getting-started/todo.spec.1.js"
+    "cy:moon:all" : ".\\node_modules\\.bin\\cypress-moon http://20.103.25.207:4444/cypress/edge?spec=cypress/integration/1-getting-started/*",
+    "cy:moon:edge" : ".\\node_modules\\.bin\\cypress-moon http://20.103.25.207:4444/cypress/edge?spec=cypress/integration/1-getting-started/todo.spec.1.js"
   },
   "keywords": [],
   "author": "",

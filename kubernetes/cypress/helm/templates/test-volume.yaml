@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-volume
+data:
+  test.js: |-
+    {{ range .Files.Lines "cytest/todo.spec.1.js" }}
+    {{ . }}{{ end }}

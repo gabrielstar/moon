@@ -1,6 +1,6 @@
 #fixed iterations
 param (
-  [string]$tool = 'selenium', # selenium|playwright|cypress
+  [string]$tool = 'all', # selenium|playwright|cypress
   [int]$maxThreads =4,
   [int]$iterations = 4,
   [int]$rampUp = 2
@@ -28,7 +28,7 @@ $parallelTestJob = 1..$iterations | ForEach-Object -ThrottleLimit $maxThreads -P
       2 { $cmd = $commands.selenium }
     }
   }
-  "Iteration $_ running $cmd after $startAt"
+  "Iteration $_ running $cmd after $startAt s"
   Invoke-Expression "$cmd"
 } -AsJob
 

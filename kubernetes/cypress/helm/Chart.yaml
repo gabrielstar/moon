@@ -1,0 +1,9 @@
+#Contains chart necessary to start a jmeter aks cluster with storage provisioned uniquely for each test run
+apiVersion: v2
+name: cypress
+description: Helm chart for cypress tests as load generators
+type: application
+maintainers:
+  - email: gstarczewski@objectivity.co.uk
+    name: Teams
+version: 1.0.0
