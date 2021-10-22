@@ -3,6 +3,7 @@ helm upgrade cy .\ --install --namespace cy --dry-run
 
 #scale
 helm upgrade cy .\ --install --namespace cy --set replicas=2 --debug
+helm upgrade cy .\ --install --namespace cy --set requests.cpu=0.2 --set replicas=45 --debug
 
 #delete
 helm delete cy --namespace cy

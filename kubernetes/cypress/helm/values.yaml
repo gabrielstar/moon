@@ -3,3 +3,4 @@ requests:
   cpu: 0.8
 limits:
   cpu: 2
+image: cypress/included:3.2.0
