@@ -125,8 +125,18 @@ The only thing that is left is to turn on the AKS auto-scaling and configure lim
 ***
 ## Kubernetes (auto-)scaling
 
+At Moon's heart there is kubernetes helm chart.
+
+
+![deployment](img/helm.png)
+
+
+
+## requests & limits
+
 ![requests](https://blog.kubecost.com/assets/images/k8s-recs-ands-limits.png)
 | https://blog.kubecost.com/blog/requests-and-limits/
+
 
 [How can a k8 cluster scale](https://docs.microsoft.com/en-us/azure/aks/cluster-autoscaler) ?
 
