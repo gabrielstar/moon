@@ -157,3 +157,20 @@ helm delete cy --namespace cy
 
 When workload is installed, we can go and see how our application responds :)
 It is possible that we will request a deployment that the cluster auto-sclaer cannot fullfill. In this case we need to modify auto-scaler policy.
+
+***
+
+## Doing all of that with CI - Azure DevOps
+
+Sample pipelines can be found in [azure](./azure) folder
+
+![pipelines](img/pipeline.png)
+
+***
+
+Do not forget to clean up your cluster.
+
+```powershell
+    kubectl delete namespace moon
+    kubectl delete namespace cy
+```
