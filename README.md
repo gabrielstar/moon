@@ -54,7 +54,7 @@ Great success, we can generate load from parallel browsers but ....
 > -  I want the same for 50 browsers, 70 , etc...
 
 
-The solution we have allows us to run as many browsers as we can on our infrastructure but still within the limits of our nodes (their capacity =  nodes x slots/sessions). What we need for load tests is auto-scaling of both browsers instances and infrastructure. Let us see how we can achieve that with Moon and Kubernetes.
+The solution we have allows us to run as many browsers as we can on our infrastructure but still within the limits of our nodes (their capacity =  nodes x slots/sessions). What we need for load tests is auto-scaling of both browsers instances and infrastructure. Let us see how we can achieve that with [Moon](https://aerokube.com/moon/) and [Kubernetes](https://kubernetes.io/pl/docs/concepts/overview/what-is-kubernetes/).
 
 ***
 
