@@ -37,7 +37,7 @@ In our sample repo we can execute code from [selenium](selenium) and [grid](grid
 If we want to use more than 1 browser at a time as load testing tool we need to run tests in parallel, which can be achieved:
 
 - with code-specific mechanisms e.g. pytest-parallel, pytest-xdist, ... 
-- with external controller e.g. a script, and since this is rare I want to show you how:
+- with external controller e.g. a script, and since this is rare I want to show you how you can do it with [powershell](runner):
 
 ```powershell
     cd ./runner
