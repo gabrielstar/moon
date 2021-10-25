@@ -14,11 +14,13 @@ Bear in mind that generating load this way is a way more expensive thing than tr
 
 ## Browser Load Testing with Selenium and Selenium Grid
 
-Let us first see at how Selenium can be used to do that, since it is a very popular technology and most tester should know it. Test is run from your test script, session is requests from grid hub and directed to one of the nodes. Nodes can start number of instances of different types: Chrome, Edge, ....
+Let us first see at how Selenium can be used to do that. It is a very popular technology and most tester should know it. 
+
+Test is run from your test script, session is requested from grid hub and directed to one of the nodes. Nodes can start number of instances of different types: Chrome, Edge, ....
 
 ![grid](img/grid.drawio.png)
 
-In our sample repo we can execute code:
+In our sample repo we can execute code from [selenium](selenium) and [grid](grid) folders
 
 ```powershell
     #run selenium with local driver - driver must match browser version
