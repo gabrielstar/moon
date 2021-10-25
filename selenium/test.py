@@ -1,6 +1,5 @@
 from selenium import webdriver
 from time import sleep
-from selenium.webdriver.common.keys import Keys
 
 
 class Chrome():
@@ -17,10 +16,9 @@ class RemoteChrome():
         options.add_argument("--disable-gpu")
         options.add_argument("--window-size=800,600")
         options.add_argument("--disable-dev-shm-usage")
-        #options.add_argument('--headless')
+        # options.add_argument('--headless')
         capabilities = {
             "browserName": "chrome",
-            "browserVersion": "93.0",
             "selenoid:options": {
                 "enableVNC": True,
                 "enableVideo": False
@@ -44,16 +42,15 @@ class DriverFactory():
             return RemoteChrome().get_driver(url)
 
 
-# test
+# local
+#driver = DriverFactory.create_driver('Chrome', False, '../drivers/chromedriver.exe')
+# remote chrome - get IP from grid console
+driver = DriverFactory.create_driver('Chrome', True, f'http://192.168.0.4:4444/wd/hub')
+# moon
+# driver = DriverFactory.create_driver('Chrome', True, f'http://20.103.25.207:4444/wd/hub')
 
-#local_chrome_driver = DriverFactory.create_driver('Chrome', False, './drivers/chromedriver.exe')
-#remote_chrome_driver = DriverFactory.create_driver('Chrome', True, f'http://192.168.0.10:4444/wd/hub')
-moon_chrome_driver = DriverFactory.create_driver(
-    'Chrome', True, f'http://20.103.25.207:4444/wd/hub')
-
-driver = moon_chrome_driver
 driver.get('https://python.org')
 print(driver.title)
 assert driver.title == 'Welcome to Python.org'
-sleep(60)
+sleep(5)
 driver.quit()
