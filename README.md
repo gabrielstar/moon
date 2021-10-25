@@ -1,33 +1,41 @@
 
 ## Load testing with a browser
 
-When can you be tempted to do that ?
+When can you be tempted to do that ? When ...
 
 - you have no other options (e.g. one cannot correlate the traffic at the protocol level)
+- you want so make sure you do it "exactly" as end-user and cost is acceptable
 - you want to simulate user traffic in the best way possible
 - your tests are relatively small ane worth the expense
+
+Bear in mind that generating load this way is a way more expensive thing than traditional, protocol-based approaches.
 
 ***
 
 ## Browser Load Testing with Selenium and Selenium Grid
 
+Let us first see at how Selenium can be used to do that, since it is a very popular technology and most tester should know it. Test is run from your test script, session is requests from grid hub and directed to one of the nodes. Nodes can start number of instances of different types: Chrome, Edge, ....
+
 ![grid](img/grid.drawio.png)
 
-Code
+In our sample repo we can execute code:
+
 ```powershell
-    #run with local driver
+    #run selenium with local driver - driver must match browser version
     cd selenium/
     python test.py
 
     #run against selenium grid
     cd grid/
     ./start-grid.ps1
-    ./start-nodes.ps1 #navigate to http://localhost:4444/grid/console
+    ./start-nodes.ps1 #navigate to http://localhost:4444/grid/console and read IP
     python test.py
 ```
+
 If we want to use more than 1 browser at a time as load testing tool we need to run tests in parallel, which can be achieved:
-- with code-specific mechanisms e.g. pytest-parallel, pytest-xdist
-- with external script
+
+- with code-specific mechanisms e.g. pytest-parallel, pytest-xdist, ... 
+- with external controller e.g. a script, and since this is rare I want to show you how:
 
 ```powershell
     cd ./runner
