@@ -54,16 +54,16 @@ Great success, we can generate load from parallel browsers but ....
 > -  I want the same for 50 browsers, 70 , etc...
 
 
-The solution we have allows us to run as many browsers as we can on our infrastructure but still within the limits of our nodes (their capacity =  nodes x slots/sessions). What we need for load tests is auto-scaling of both browsers and infrastructure. Let us see how we can achieve that with Moon and Kubernetes.
+The solution we have allows us to run as many browsers as we can on our infrastructure but still within the limits of our nodes (their capacity =  nodes x slots/sessions). What we need for load tests is auto-scaling of both browsers instances and infrastructure. Let us see how we can achieve that with Moon and Kubernetes.
 
 ***
 
 ## Moon architecture
 
-Moon is a commercial 'Browsers Grid' that runs on Kubernetes natively. For our siltuon we can install Moon on Kubernetes and define auto-scalign rules for:
+Moon is a commercial 'Browsers Grid' that runs on Kubernetes natively. For our siltuon we can install Moon on Kubernetes and define scaling rules for:
 
-- browser instances
-- hardware it runs on
+- browser instances 
+- hardware it runs on (kubernetes nodes)
 
 ![grid](img/moon.drawio.png)
 
@@ -84,10 +84,12 @@ Installation on AKS (Azure Kubernetes)
     kubectl create namespace moon
     helm upgrade --install -n moon moon aerokube/moon --version="1.1.12"
 
-    #get external IP
+    #get EXTERNAL_IP from here
     kubectl get all -nmoon helm show values aerokube/moon
 
 ```
+
+Moon will expose port 4444 for tests and 8080 for UI.
 
 ![moon](img/moon.png)
 
@@ -95,12 +97,12 @@ Installation on AKS (Azure Kubernetes)
 You can visit Moon UI at http://EXTERNAL_IP:8080
 
 Let us try how it works with:
-- selenium (modify URL)
+- selenium (modify URL in test)
 ```powershell
     cd selenium/
     python test.py
 ```
-- playwright (modify URL)
+- playwright (modify URL in test)
 ```powershell
     cd ./playwright
     npm run moon:firefox
@@ -111,14 +113,14 @@ Let us try how it works with:
     npm run cy:moon:edge
 ```
 
-We will use again our runner to start 4 parallel sessions.
+Now we can use again our runner once again to start 4 parallel sessionsof cypress, selenium, playwright, ...
 
 ```powershell
     cd ./runner
     ./parallelRunner.ps1 #will run 4 parallel sessions
 ```
 
-Th eonly thing that is left is to turn on the AKS aut-scaling and configure limits on moon.
+The only thing that is left is to turn on the AKS auto-scaling and configure limits on moon to tell kubernetes to create more nodes for our browser instamces.
 
 ***
 ## Kubernetes scaling
@@ -132,23 +134,25 @@ Th eonly thing that is left is to turn on the AKS aut-scaling and configure limi
 
 | https://docs.microsoft.com/en-us/azure/aks/media/autoscaler/cluster-autoscaler.png
 
-| The cluster autoscaler watches for pods that can't be scheduled on nodes because of resource constraints. The cluster then automatically increases the number of nodes.
+> The cluster autoscaler watches for pods that can't be scheduled on nodes because of resource constraints. The cluster then automatically increases the number of nodes.
 
+
+To use auto-scaling we need to define resource requirements first for our browser instances:
 
 ```powershell
     #enable auto-scaling 
     helm upgrade --install -n moon moon aerokube/moon --version="1.1.12" --set moon.browser.resources.cpu.requests=1.5 --set moon.browser.resources.cpu.limits=3
 ```
-We have 3 CPUs x 2 cores in our infrastructure as compute power. By running 4 test we want to reserve 4 x 1.5 = 6 cores. This shoul trigger auto scale-up becuase kubernetes uses some cpu for itself.
+Our kubernetes has total of 3 CPUs x 2 cores = 6 cores. By running 4 tests we want to reserve 4 x 1.5 = 6 cores for the run. This should actually trigger auto scale-up because kubernetes uses some cpu for itself.
 
-Let us run our tests and wait for infrastructure to auto-scale too. It can take a couple of minutes but we should see node count going from 3 to 5.
+Let us run our tests and wait for infrastructure to auto-scale too. It can take a couple of minutes but we should see node count going from 3 to 5 after some time.
 
 
 *** 
 
-## Using cypress (or anything else) directly with Kubernetes.
+## Alternative - using cypress (or anything else really) directly with Kubernetes.
 
-If we have no need for Moon we can use any e2e testing framework, package it into container and deploy on Kubernetes to take advantage of nodes auto-scaling.
+If we have no need for Moon we can use any e2e testing framework, package it into a Docker container and deploy on Kubernetes to take advantage of nodes auto-scaling.
 
 Let us have a look at kubernetes deployment in [kubernetes](../kubernetes) folder.
 
