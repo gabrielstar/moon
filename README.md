@@ -113,17 +113,17 @@ Let us try how it works with:
     npm run cy:moon:edge
 ```
 
-Now we can use again our runner once again to start 4 parallel sessionsof cypress, selenium, playwright, ...
+Now we can use again our runner once again to start 4 parallel sessions of cypress, selenium, playwright, ...
 
 ```powershell
     cd ./runner
     ./parallelRunner.ps1 #will run 4 parallel sessions
 ```
 
-The only thing that is left is to turn on the AKS auto-scaling and configure limits on moon to tell kubernetes to create more nodes for our browser instamces.
+The only thing that is left is to turn on the AKS auto-scaling and configure limits on moon to tell kubernetes to create more nodes for our browser instances when needed.
 
 ***
-## Kubernetes scaling
+## Kubernetes (auto-)scaling
 
 ![requests](https://blog.kubecost.com/assets/images/k8s-recs-ands-limits.png)
 | https://blog.kubecost.com/blog/requests-and-limits/
@@ -143,18 +143,29 @@ To use auto-scaling we need to define resource requirements first for our browse
     #enable auto-scaling 
     helm upgrade --install -n moon moon aerokube/moon --version="1.1.12" --set moon.browser.resources.cpu.requests=1.5 --set moon.browser.resources.cpu.limits=3
 ```
-Our kubernetes has total of 3 CPUs x 2 cores = 6 cores. By running 4 tests we want to reserve 4 x 1.5 = 6 cores for the run. This should actually trigger auto scale-up because kubernetes uses some cpu for itself.
+As a second step we need to ensure our AKS has auto-scaler on (we do it in azure portal).
 
-Let us run our tests and wait for infrastructure to auto-scale too. It can take a couple of minutes but we should see node count going from 3 to 5 after some time.
+Our kubernetes has total of 3 CPUs x 2 cores = 6 cores. By running 4 tests (starting 4 browser instances) in parallel we want k8 to reserve 4 x 1.5 = 6 cores for the run. This should actually trigger auto scale-up because kubernetes uses some cpu for itself so in real life we do not have all 6 cores for ourselves.
+
+Let us run our tests and wait for infrastructure to auto-scale too.
+```powershell
+    while($True) { kubectl get no; Start-Sleep 10 }
+```
+ It can take a couple of minutes but we should see node count going from 3 to 5 after some time.
 
 
 *** 
 
 ## Alternative - using cypress (or anything else really) directly with Kubernetes.
 
-If we have no need for Moon we can use any e2e testing framework, package it into a Docker container and deploy on Kubernetes to take advantage of nodes auto-scaling.
+If we have no need for Moon we can use any e2e testing framework, package it into a Docker container and deploy on Kubernetes with [Helm chart](https://helm.sh/) to take advantage of nodes auto-scaling.
 
-Let us have a look at kubernetes deployment in [kubernetes](../kubernetes) folder.
+![deployment](img/helm.png)
+
+
+Let us dive into a sample kubernetes deployment in [kubernetes](../kubernetes) folder.
+
+These will be useful commands:
 
 ```powershell
 cd ./kubernetes/cypress/helm
@@ -163,7 +174,7 @@ cd ./kubernetes/cypress/helm
 helm upgrade cy .\ --install --namespace cy --dry-run
 helm upgrade cy .\ --install --namespace cy
 
-#scale
+#define browser instance requirements
 helm upgrade cy .\ --install --namespace cy --set requests.cpu=0.2 --set replicas=45 --debug
 
 #check number of instances - can take a while for all to pop up
@@ -180,9 +191,11 @@ It is possible that we will request a deployment that the cluster auto-sclaer ca
 
 ## Doing all of that with CI - Azure DevOps
 
-Sample pipelines can be found in [azure](./azure) folder
+We should always aim at automating things. One way to do it is to create a pipeline for what we do.  Sample pipelines can be found in [azure](./azure) folder
 
 ![pipelines](img/pipeline.png)
+
+We can run pipeline multiple times and observe our application monitoring.
 
 ***
 
@@ -192,3 +205,4 @@ Do not forget to clean up your cluster.
     kubectl delete namespace moon
     kubectl delete namespace cy
 ```
+
