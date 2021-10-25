@@ -60,7 +60,7 @@ The solution we have allows us to run as many browsers as we can on our infrastr
 
 ## Moon architecture
 
-Moon is a commercial 'Browsers Grid' that runs on Kubernetes natively. For our siltuon we can install Moon on Kubernetes and define scaling rules for:
+Moon is a commercial 'Browsers Grid' that runs on Kubernetes natively. It supports selenium, playwright and cypress as clients. For our case we can install Moon on Kubernetes and define scaling rules for:
 
 - browser instances 
 - hardware it runs on (kubernetes nodes)
