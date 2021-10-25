@@ -23,8 +23,8 @@ $parallelTestJob = 1..$iterations | ForEach-Object -ThrottleLimit $maxThreads -P
     $cmd = $commands[$tool]
   } else{ #round robin
     switch ($_ % $commands.count) {
-      0 { $cmd = $commands.selenium } #playwright
-      1 { $cmd = $commands.selenium } #cypress
+      0 { $cmd = $commands.playwright } #playwright
+      1 { $cmd = $commands.cypress } #cypress
       2 { $cmd = $commands.selenium }
     }
   }
