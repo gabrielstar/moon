@@ -56,6 +56,7 @@ Great success, we can generate load from parallel browsers but ....
 
 The solution we have allows us to run as many browsers as we can on our infrastructure but still within the limits of our nodes (their capacity =  nodes x slots/sessions). What we need for load tests is auto-scaling of both browsers and infrastructure. Let us see how we can achieve that with Moon and Kubernetes.
 
+***
 
 ## Moon architecture
 
