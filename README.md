@@ -44,14 +44,17 @@ If we want to use more than 1 browser at a time as load testing tool we need to 
     ./parallelRunner.ps1 #will run 4 parallel sessions
 
 ```
-This way we can mix any kind of solution (playwright, cypress, selenium) in one. 
+This way we can mix any kind of solution (playwright, cypress, selenium) in one. Of course you will not do it often ... but it is possible.
 
 Great success, we can generate load from parallel browsers but ....
 
-| I want to run my test with 20 browsers and I want that my browsers get created and infrastructure scales automatically. I want the same for 50 browsers, 70 , etc...
+> what I really want is to run my test with 20 browsers:
+> -  and I want that my browsers get created without me caring for it
+> -  and so that infrastructure scales automatically.
+> -  I want the same for 50 browsers, 70 , etc...
 
 
-The solution we have allows us to run as many browsers as we can on our infrastructure but still within the limits of our nodes (their capacity). What we need for load tests is auto-scaling of both browsers and infrastructure. Let us see how we can achieve that with Moon.
+The solution we have allows us to run as many browsers as we can on our infrastructure but still within the limits of our nodes (their capacity =  nodes x slots/sessions). What we need for load tests is auto-scaling of both browsers and infrastructure. Let us see how we can achieve that with Moon and Kubernetes.
 
 
 ## Moon architecture
