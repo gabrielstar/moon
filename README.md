@@ -85,7 +85,8 @@ Installation on AKS (Azure Kubernetes)
     helm upgrade --install -n moon moon aerokube/moon --version="1.1.12"
 
     #get EXTERNAL_IP from here
-    kubectl get all -nmoon helm show values aerokube/moon
+    kubectl get all -nmoon 
+    helm show values aerokube/moon
 
 ```
 

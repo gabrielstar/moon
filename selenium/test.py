@@ -45,9 +45,9 @@ class DriverFactory():
 # local
 #driver = DriverFactory.create_driver('Chrome', False, '../drivers/chromedriver.exe')
 # remote chrome - get IP from grid console
-#driver = DriverFactory.create_driver('Chrome', True, f'http://192.168.0.4:4444/wd/hub')
+driver = DriverFactory.create_driver('Chrome', True, f'http://10.101.127.37:4444/wd/hub')
 # moon
-driver = DriverFactory.create_driver('Chrome', True,f'http://20.103.25.207:4444/wd/hub')
+#driver = DriverFactory.create_driver('Chrome', True,f'http://20.103.25.207:4444/wd/hub')
 
 driver.get('https://python.org')
 print(driver.title)
